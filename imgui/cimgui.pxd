@@ -239,6 +239,15 @@ cdef extern from "imgui.h":
                     ImU32,
                     int);
 
+        void AddBezierCurve(
+                    const ImVec2&,
+                    const ImVec2&,
+                    const ImVec2&,
+                    const ImVec2&,
+                    ImU32,
+                    float, int);
+
+
         void ChannelsSplit(int channels_count);
         void ChannelsMerge();
         void ChannelsSetCurrent(int) except +

@@ -390,6 +390,9 @@ cdef class _DrawList(object):
     def add_circle_filled(self, centre, float radius, cimgui.ImU32 color, int num_segments = 12):
         self._ptr.AddCircleFilled(_cast_tuple_ImVec2(centre), radius, color, num_segments)
 
+    def add_bezier_curve(self, pos0, cp0, cp1, pos1, cimgui.ImU32 color, float thickness, int num_segments = 0):
+        self._ptr.AddBezierCurve(_cast_tuple_ImVec2(pos0), _cast_tuple_ImVec2(cp0), _cast_tuple_ImVec2(cp1), _cast_tuple_ImVec2(pos1), color, thickness, num_segments)
+
 
     #def add_rect_filled(self,
     #    float upper_left_x, float upper_left_y,
