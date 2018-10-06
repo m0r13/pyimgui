@@ -78,7 +78,6 @@ cdef extern from "imgui.h":
         float z
         float w
 
-
     ctypedef struct ImGuiIO:
         # ====
         # source-note: Settings (fill once)
@@ -206,6 +205,20 @@ cdef extern from "imgui.h":
         ImVector[ImDrawCmd]  CmdBuffer  # ✓
         ImVector[ImDrawIdx]  IdxBuffer  # ✓
         ImVector[ImDrawVert] VtxBuffer  # ✓
+        int _ChannelsCurrent
+        int _ChannelsCount
+
+        void AddLine(
+                    const ImVec2&,
+                    const ImVec2&,
+                    ImU32,
+                    float);
+
+        void AddRect(
+                    const ImVec2&,
+                    const ImVec2&,
+                    ImU32,
+                    float, int) except +
 
         void  AddRectFilled(
                    const ImVec2&, 
@@ -213,6 +226,22 @@ cdef extern from "imgui.h":
                    ImU32,
                    # note: optional
                    float, int) except +  # ✓
+
+        void AddCircle(
+                    const ImVec2&,
+                    float,
+                    ImU32,
+                    int, float);
+
+        void AddCircleFilled(
+                    const ImVec2&,
+                    float,
+                    ImU32,
+                    int);
+
+        void ChannelsSplit(int channels_count);
+        void ChannelsMerge();
+        void ChannelsSetCurrent(int) except +
 
 
     ctypedef struct ImDrawData:  # ✓

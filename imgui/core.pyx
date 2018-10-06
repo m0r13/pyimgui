@@ -375,12 +375,28 @@ cdef class _DrawList(object):
     def idx_buffer_data(self):
         return <uintptr_t>self._ptr.IdxBuffer.Data
 
-    def add_rect_filled(self,
-        float upper_left_x, float upper_left_y,
-        float lower_right_x, float lower_right_y,
-        cimgui.ImU32 col,
-        # note: optional
-        float rounding = 0.0, cimgui.ImGuiWindowFlags rounding_corners_flags = 0xF):
+    def add_line(self, a, b, cimgui.ImU32 color, float thickness = 1.0):
+        self._ptr.AddLine(_cast_tuple_ImVec2(a), _cast_tuple_ImVec2(b), color, thickness)
+
+    def add_rect(self, upper_left, lower_right, cimgui.ImU32 color, float rounding = 0.0, int rounding_corners_flags = 0xF):
+        self._ptr.AddRect(_cast_tuple_ImVec2(upper_left), _cast_tuple_ImVec2(lower_right), color, rounding, rounding_corners_flags)
+
+    def add_rect_filled(self, upper_left, lower_right, cimgui.ImU32 color, float rounding = 0.0, int rounding_corners_flags = 0xF):
+        self._ptr.AddRectFilled(_cast_tuple_ImVec2(upper_left), _cast_tuple_ImVec2(lower_right), color, rounding, rounding_corners_flags)
+
+    def add_circle(self, centre, float radius, cimgui.ImU32 color, int num_segments = 12, float thickness = 1.0):
+        self._ptr.AddCircle(_cast_tuple_ImVec2(centre), radius, color, num_segments, thickness)
+
+    def add_circle_filled(self, centre, float radius, cimgui.ImU32 color, int num_segments = 12):
+        self._ptr.AddCircleFilled(_cast_tuple_ImVec2(centre), radius, color, num_segments)
+
+
+    #def add_rect_filled(self,
+    #    float upper_left_x, float upper_left_y,
+    #    float lower_right_x, float lower_right_y,
+    #    cimgui.ImU32 col,
+    #    # note: optional
+    #    float rounding = 0.0, cimgui.ImGuiWindowFlags rounding_corners_flags = 0xF):
 
         """AddRectFilled() primitive for ImDrawList()
 
@@ -403,15 +419,31 @@ cdef class _DrawList(object):
                    # note: optional
                    float, int)
     """
-        #_DrawList.from_ptr(self._ptr).AddRectFilled(
-        self._ptr.AddRectFilled(
-            _cast_args_ImVec2(upper_left_x, upper_left_y),
-            _cast_args_ImVec2(lower_right_x, lower_right_y),
-            col,
-            rounding,
-            rounding_corners_flags
-        )
+    #    #_DrawList.from_ptr(self._ptr).AddRectFilled(
+    #    self._ptr.AddRectFilled(
+    #        _cast_args_ImVec2(upper_left_x, upper_left_y),
+    #        _cast_args_ImVec2(lower_right_x, lower_right_y),
+    #        col,
+    #        rounding,
+    #        rounding_corners_flags
+    #    )
 
+    @property
+    def channels_current(self):
+        return self._ptr._ChannelsCurrent
+
+    @property
+    def channels_count(self):
+        return self._ptr._ChannelsCount
+
+    def channels_split(self, int channels_count):
+        self._ptr.ChannelsSplit(channels_count)
+
+    def channels_merge(self):
+        self._ptr.ChannelsMerge()
+
+    def channels_set_current(self, int channel_index):
+        self._ptr.ChannelsSetCurrent(channel_index)
 
     @property
     def commands(self):
@@ -1764,6 +1796,8 @@ def get_window_draw_list():
     """
     return _DrawList.from_ptr(cimgui.GetWindowDrawList())
 
+def get_overlay_draw_list():
+    return _DrawList.from_ptr(cimgui.GetOverlayDrawList())
 
 def get_window_position():
     """Get current window position.
@@ -1943,6 +1977,8 @@ def tree_pop():
     """
     cimgui.TreePop()
 
+def set_next_tree_node_open(bool is_open, cimgui.ImGuiTreeNodeFlags flags = 0):
+    cimgui.SetNextTreeNodeOpen(is_open, flags)
 
 def collapsing_header(
     str text,
@@ -4945,6 +4981,8 @@ def is_item_hovered(
     """
     return cimgui.IsItemHovered(flags)
 
+def is_any_item_active():
+    return cimgui.IsAnyItemActive()
 
 def is_item_focused():
     """Check if the last item is focused
@@ -5068,6 +5106,11 @@ def get_item_rect_size():
     """
     return _cast_ImVec2_tuple(cimgui.GetItemRectSize())
 
+def is_mouse_clicked(int button, bool repeat = False):
+    return cimgui.IsMouseClicked(button, repeat)
+
+def is_mouse_released(button):
+    return cimgui.IsMouseReleased(button)
 
 def set_item_allow_overlap():
     """Allow last item to be overlapped by a subsequent item.
@@ -5999,6 +6042,11 @@ def end_group():
     """
     cimgui.EndGroup()
 
+def get_cursor_pos():
+    return _cast_ImVec2_tuple(cimgui.GetCursorPos())
+
+def set_cursor_pos(pos):
+    return cimgui.SetCursorPos(_cast_tuple_ImVec2(pos))
 
 def get_cursor_start_pos():
     """Get the initial cursor position.
@@ -6017,6 +6065,8 @@ def get_cursor_screen_pos():
     """
     return _cast_ImVec2_tuple(cimgui.GetCursorScreenPos())
 
+def set_cursor_screen_pos(screen_pos):
+    cimgui.SetCursorScreenPos(_cast_tuple_ImVec2(screen_pos))
 
 def get_text_line_height():
     """Get text line height.
@@ -6060,6 +6110,11 @@ def get_frame_height_with_spacing():
     """
     return cimgui.GetFrameHeightWithSpacing()
 
+def push_id(int int_id):
+    return cimgui.PushID(int_id)
+
+def pop_id():
+    cimgui.PopID()
 
 def create_context(_FontAtlas shared_font_atlas = None):
     """CreateContext
