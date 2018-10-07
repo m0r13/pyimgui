@@ -1613,14 +1613,16 @@ def get_window_content_region_width():
     return cimgui.GetWindowContentRegionWidth()
 
 
-def set_window_focus():
+def set_window_focus(name=None):
     """Set window to be focused
 
     .. wraps::
         void SetWindowFlcus()
     """
-    cimgui.SetWindowFocus()
-
+    if name is None:
+        cimgui.SetWindowFocus()
+    else:
+        cimgui.SetWindowFocus(_bytes(name))
 
 def get_scroll_x():
     """get scrolling amount [0..GetScrollMaxX()]
