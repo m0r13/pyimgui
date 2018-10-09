@@ -635,9 +635,16 @@ cdef extern from "imgui.h" namespace "ImGui":
     bool ColorEdit3(const char* label, float col[3]) except +  # ✓
     bool ColorEdit4(  # ✓
             const char* label, float col[4],
-            # note: optional
-            bool show_alpha
+            ImGuiColorEditFlags flags
     ) except +  #void ColorEditMode(ImGuiColorEditMode mode) except +  # note: obsoleted
+    bool ColorPicker3(  # ✓
+            const char* label, float col[3],
+            ImGuiColorEditFlags flags
+    ) except +
+    bool ColorPicker4(  # ✓
+            const char* label, float col[4],
+            ImGuiColorEditFlags flags
+    ) except +
 
     # Widgets: plots
     void PlotLines(  # ✗

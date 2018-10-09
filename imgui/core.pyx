@@ -65,6 +65,27 @@ STYLE_GRAB_ROUNDING = enums.ImGuiStyleVar_GrabRounding # float
 IF TARGET_IMGUI_VERSION > (1, 49):
     STYLE_BUTTON_TEXT_ALIGN = enums.ImGuiStyleVar_ButtonTextAlign # flags ImGuiAlign_*
 
+# ==== Color picker flag enum redefines ====
+COLOR_EDIT_NO_ALPHA = enums.ImGuiColorEditFlags_NoAlpha
+COLOR_EDIT_NO_PICKER = enums.ImGuiColorEditFlags_NoPicker
+COLOR_EDIT_NO_OPTIONS = enums.ImGuiColorEditFlags_NoOptions
+COLOR_EDIT_NO_SMALL_PREVIEW = enums.ImGuiColorEditFlags_NoSmallPreview
+COLOR_EDIT_NO_INPUTS = enums.ImGuiColorEditFlags_NoInputs
+COLOR_EDIT_NO_TOOLTIP = enums.ImGuiColorEditFlags_NoTooltip
+COLOR_EDIT_NO_LABEL = enums.ImGuiColorEditFlags_NoLabel
+COLOR_EDIT_NO_SIDE_PREVIEW = enums.ImGuiColorEditFlags_NoSidePreview
+COLOR_EDIT_ALPHA_BAR = enums.ImGuiColorEditFlags_AlphaBar
+COLOR_EDIT_ALPHA_PREVIEW = enums.ImGuiColorEditFlags_AlphaPreview
+COLOR_EDIT_ALPHA_PREVIEW_HALF = enums.ImGuiColorEditFlags_AlphaPreviewHalf
+COLOR_EDIT_HDR = enums.ImGuiColorEditFlags_HDR
+COLOR_EDIT_RGB = enums.ImGuiColorEditFlags_RGB
+COLOR_EDIT_HSV = enums.ImGuiColorEditFlags_HSV
+COLOR_EDIT_HEX = enums.ImGuiColorEditFlags_HEX
+COLOR_EDIT_UINT8T = enums.ImGuiColorEditFlags_Uint8
+COLOR_EDIT_FLOAT = enums.ImGuiColorEditFlags_Float
+COLOR_EDIT_PICKER_HUE_BAR = enums.ImGuiColorEditFlags_PickerHueBar
+COLOR_EDIT_PICKER_HUE_WHEEL = enums.ImGuiColorEditFlags_PickerHueWheel
+
 # ==== Key map enum redefines ====
 KEY_TAB = enums.ImGuiKey_Tab                 # for tabbing through fields
 KEY_LEFT_ARROW = enums.ImGuiKey_LeftArrow    # for text edit
@@ -1938,7 +1959,6 @@ def is_window_appearing():
     return cimgui.IsWindowAppearing()
 
 
-
 def tree_node(str text, cimgui.ImGuiTreeNodeFlags flags=0):
     """Draw a tree node.
 
@@ -3019,7 +3039,6 @@ def color_button(
         _bytes(desc_id), _cast_args_ImVec4(r, g, b, a), flags, _cast_args_ImVec2(width, height)
     )
 
-
 def image_button(
     texture_id,
     float width,
@@ -3330,7 +3349,7 @@ def color_edit3(str label, float r, float g, float b):
 
 
 def color_edit4(
-    str label, float r, float g, float b, float a, cimgui.bool show_alpha=True
+    str label, float r, float g, float b, float a, cimgui.ImGuiColorEditFlags flags
 ):
     """Display color edit widget for color with alpha value.
 
@@ -3367,9 +3386,20 @@ def color_edit4(
     cdef float[4] inout_color = [r, g, b, a]
 
     return cimgui.ColorEdit4(
-        _bytes(label), <float *>(&inout_color), show_alpha
+        _bytes(label), <float *>(&inout_color), flags
     ), (inout_color[0], inout_color[1], inout_color[2], inout_color[3])
 
+def color_picker3(str label, float r, float g, float b, cimgui.ImGuiColorEditFlags flags):
+    cdef float[3] inout_color = [r, g, b]
+    return cimgui.ColorPicker3(
+        _bytes(label), <float *>(&inout_color), flags
+    ), (inout_color[0], inout_color[1], inout_color[2])
+
+def color_picker4(str label, float r, float g, float b, float a, cimgui.ImGuiColorEditFlags flags):
+    cdef float[4] inout_color = [r, g, b, a]
+    return cimgui.ColorPicker4(
+        _bytes(label), <float *>(&inout_color), flags
+    ), (inout_color[0], inout_color[1], inout_color[2], inout_color[3])
 
 def drag_float(
     str label, float value,
