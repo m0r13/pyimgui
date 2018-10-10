@@ -239,6 +239,11 @@ cdef extern from "imgui.h":
                     ImU32,
                     int);
 
+        void AddText(
+                    const ImVec2&,
+                    ImU32,
+                    const char*);
+
         void AddBezierCurve(
                     const ImVec2&,
                     const ImVec2&,

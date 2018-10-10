@@ -411,6 +411,9 @@ cdef class _DrawList(object):
     def add_circle_filled(self, centre, float radius, cimgui.ImU32 color, int num_segments = 12):
         self._ptr.AddCircleFilled(_cast_tuple_ImVec2(centre), radius, color, num_segments)
 
+    def add_text(self, pos, cimgui.ImU32 color, str text):
+        self._ptr.AddText(_cast_tuple_ImVec2(pos), color, _bytes(text))
+
     def add_bezier_curve(self, pos0, cp0, cp1, pos1, cimgui.ImU32 color, float thickness, int num_segments = 0):
         self._ptr.AddBezierCurve(_cast_tuple_ImVec2(pos0), _cast_tuple_ImVec2(cp0), _cast_tuple_ImVec2(cp1), _cast_tuple_ImVec2(pos1), color, thickness, num_segments)
 
@@ -5140,6 +5143,9 @@ def get_item_rect_size():
         ImVec2 GetItemRectSize()
     """
     return _cast_ImVec2_tuple(cimgui.GetItemRectSize())
+
+def calc_text_size(str text):
+    return _cast_ImVec2_tuple(cimgui.CalcTextSize(_bytes(text), NULL, False, 0.0))
 
 def is_mouse_clicked(int button, bool repeat = False):
     return cimgui.IsMouseClicked(button, repeat)
