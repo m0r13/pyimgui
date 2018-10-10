@@ -168,7 +168,7 @@ cdef extern from "imgui.h":
         #float       MouseDownDurationPrev[5]  # ✗
         #float       MouseDragMaxDistanceAbs[5]  # ✗
         #float       MouseDragMaxDistanceSqr[5]  # ✗
-        #float       KeysDownDuration[512]  # ✗
+        float       KeysDownDuration[512]  # ✗
         #float       KeysDownDurationPrev[512]  # ✗
         #float       NavInputsDownDuration[ImGuiNavInput_COUNT]   # ✗
         #float       NavInputsDownDurationPrev[ImGuiNavInput_COUNT] # ✗

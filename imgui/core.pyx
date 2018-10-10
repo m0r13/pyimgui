@@ -1149,6 +1149,19 @@ cdef class _IO(object):
         keys_down.data = <char*>self._ptr.KeysDown
         return keys_down
 
+    @property
+    def keys_down_duration(self):
+        # todo: consider adding setter despite the fact that it can be
+        # todo: modified in place
+        cdef cvarray keys_down_duration = cvarray(
+            shape=(512,),
+            format='f',
+            itemsize=sizeof(float),
+            allocate_buffer=False
+        )
+        keys_down_duration.data = <char*>self._ptr.KeysDownDuration
+        return keys_down_duration
+
     def add_input_character(self, cimgui.ImWchar c):
         self._ptr.AddInputCharacter(c)
 
