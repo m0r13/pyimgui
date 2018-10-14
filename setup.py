@@ -109,6 +109,7 @@ EXTRAS_REQUIRE = {
 # backend integrations and additional extra features.
 EXTRAS_REQUIRE['full'] = list(set(chain(*EXTRAS_REQUIRE.values())))
 
+import numpy
 EXTENSIONS = [
     Extension(
         "imgui.core", extension_sources("imgui/core"),
@@ -117,7 +118,7 @@ EXTENSIONS = [
             # note: for raising custom exceptions directly in ImGui code
             ('PYIMGUI_CUSTOM_EXCEPTION', None)
         ] + os_specific_macros + general_macros,
-        include_dirs=['imgui', 'config-cpp', 'imgui-cpp'],
+        include_dirs=['imgui', 'config-cpp', 'imgui-cpp', numpy.get_include()],
     ),
 ]
 

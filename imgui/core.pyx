@@ -3417,6 +3417,21 @@ def color_picker4(str label, float r, float g, float b, float a, cimgui.ImGuiCol
         _bytes(label), <float *>(&inout_color), flags
     ), (inout_color[0], inout_color[1], inout_color[2], inout_color[3])
 
+import numpy as np
+cimport numpy as np
+def plot_lines(str label, values, float scale_min, float scale_max, graph_size):
+    #void PlotLines(  # ✗
+    #        const char* label, const float* values, int values_count,
+    #        # note: optional
+    #        int values_offset, const char* overlay_text,
+    #        float scale_min, float scale_max, ImVec2 graph_size, int stride
+    #) except +
+
+    cdef np.ndarray[np.float32_t, ndim=1, mode = 'c'] np_buff = np.ascontiguousarray(values.astype(np.float32), dtype = np.float32)
+    cdef const float* buf = <const float*> np_buff.data
+
+    cimgui.PlotLines(_bytes(label), buf, <int>values.shape[0], 0, NULL, scale_min, scale_max, _cast_tuple_ImVec2(graph_size), 4)
+
 def drag_float(
     str label, float value,
     float change_speed = 1.0,
