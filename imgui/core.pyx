@@ -6179,8 +6179,10 @@ def get_frame_height_with_spacing():
     """
     return cimgui.GetFrameHeightWithSpacing()
 
-def push_id(int int_id):
-    return cimgui.PushID(int_id)
+def push_id(various_id):
+    if isinstance(various_id, str):
+        return cimgui.PushID(_bytes(various_id))
+    return cimgui.PushID(<int>various_id)
 
 def pop_id():
     cimgui.PopID()
