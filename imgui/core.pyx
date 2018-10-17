@@ -271,6 +271,8 @@ INPUT_TEXT_PASSWORD = enums.ImGuiInputTextFlags_Password
 INPUT_TEXT_NO_UNDO_REDO = enums.ImGuiInputTextFlags_NoUndoRedo
 
 
+ITEM_DISABLED = enums.ImGuiItemFlags_Disabled
+
 Vec2 = namedtuple("Vec2", ['x', 'y'])
 Vec4 = namedtuple("Vec4", ['x', 'y', 'z', 'w'])
 
@@ -1956,6 +1958,8 @@ def set_next_window_size(
     """
     cimgui.SetNextWindowSize(_cast_args_ImVec2(width, height), condition)
 
+def set_next_window_content_size(float width, float height):
+    cimgui.SetNextWindowContentSize(_cast_args_ImVec2(width, height))
 
 def is_window_collapsed():
     """Check if current window is collapsed.
@@ -6337,3 +6341,9 @@ def _py_vertex_buffer_vertex_size():
 
 def _py_index_buffer_index_size():
     return sizeof(cimgui.ImDrawIdx)
+
+def push_item_flag(int flags, bool enabled):
+    cimgui.PushItemFlag(flags, enabled)
+
+def pop_item_flag():
+    cimgui.PopItemFlag()

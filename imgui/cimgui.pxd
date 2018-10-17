@@ -1240,3 +1240,8 @@ cdef extern from "imgui.h" namespace "ImGui":
             size_t* out_ini_size
     ) except +
 
+cdef extern from "imgui_internal.h" namespace "ImGui":
+    ctypedef int ImGuiItemFlags
+
+    void PushItemFlag(ImGuiItemFlags flags, bool enabled);
+    void PopItemFlag();
