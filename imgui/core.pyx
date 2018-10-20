@@ -1138,6 +1138,10 @@ cdef class _IO(object):
     def key_super(self, cimgui.bool value):
         self._ptr.KeySuper = value
 
+    def is_key_down(self, int key):
+        assert key < 512
+        return self._ptr.KeysDown[key]
+
     @property
     def keys_down(self):
         # todo: consider adding setter despite the fact that it can be
@@ -1150,6 +1154,10 @@ cdef class _IO(object):
         )
         keys_down.data = <char*>self._ptr.KeysDown
         return keys_down
+
+    def get_key_down_duration(self, int key):
+        assert key < 512
+        return self._ptr.KeysDownDuration[key]
 
     @property
     def keys_down_duration(self):
