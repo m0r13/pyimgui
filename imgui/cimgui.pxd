@@ -342,6 +342,12 @@ cdef extern from "imgui.h":
     ctypedef struct ImGuiContext:
         pass
 
+    ctypedef struct ImGuiSizeCallbackData:
+        void*   UserData;       # Read-only.   What user passed to SetNextWindowSizeConstraints()
+        ImVec2  Pos;            # Read-only.   Window position, for reference.
+        ImVec2  CurrentSize;    # Read-only.   Current window size.
+        ImVec2  DesiredSize;    # Read-write.  Desired size, based on user's mouse position. Write to this field to restrain resizing.
+
 cdef extern from "imgui.h" namespace "ImGui":
     # ====
     # Context creation and access

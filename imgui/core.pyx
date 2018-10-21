@@ -1966,6 +1966,12 @@ def set_next_window_size(
     """
     cimgui.SetNextWindowSize(_cast_args_ImVec2(width, height), condition)
 
+cdef void _window_size_callback(cimgui.ImGuiSizeCallbackData* data):
+    data.DesiredSize = _cast_tuple_ImVec2((<object> data.UserData)(_cast_ImVec2_tuple(data.DesiredSize)))
+
+def set_next_window_size_constraints(size_min, size_max, callback):
+    cimgui.SetNextWindowSizeConstraints(_cast_tuple_ImVec2(size_min), _cast_tuple_ImVec2(size_max), _window_size_callback, <void*> callback)
+
 def set_next_window_content_size(float width, float height):
     cimgui.SetNextWindowContentSize(_cast_args_ImVec2(width, height))
 
