@@ -286,7 +286,10 @@ cdef str _from_bytes(bytes text):
 
 
 cdef _cast_ImVec2_tuple(cimgui.ImVec2 vec):  # noqa
-    return Vec2(vec.x, vec.y)
+    # don't use namedtuple here for now
+    # instantiation somehow allocates extra string and that takes time
+    #return Vec2(vec.x, vec.y)
+    return (vec.x, vec.y)
 
 
 cdef cimgui.ImVec2 _cast_tuple_ImVec2(pair) except *:  # noqa
