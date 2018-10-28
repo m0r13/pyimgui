@@ -623,6 +623,16 @@ cdef extern from "imgui.h" namespace "ImGui":
     bool RadioButton(const char* label, int* v, int v_button) except +  # ✓
 
     # Widgets: combos
+    bool BeginCombo(
+        const char* label,
+        const char* preview_value,
+        ImGuiComboFlags flags
+    ) except +
+
+    bool EndCombo(
+
+    ) except +
+
     bool Combo(  # ✓
             const char* label, int* current_item,
             const char* items_separated_by_zeros,

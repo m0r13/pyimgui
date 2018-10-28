@@ -3301,6 +3301,11 @@ def radio_button(str label, cimgui.bool active):
     """
     return cimgui.RadioButton(_bytes(label), active)
 
+def begin_combo(str label, str preview_value, unsigned int flags=0):
+    return cimgui.BeginCombo(_bytes(label), _bytes(preview_value), flags)
+
+def end_combo():
+    cimgui.EndCombo()
 
 def combo(str label, int current, list items, int height_in_items=-1):
     """Display combo widget.
