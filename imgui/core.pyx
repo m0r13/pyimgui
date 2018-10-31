@@ -419,6 +419,9 @@ cdef class _DrawList(object):
     def add_text(self, pos, cimgui.ImU32 color, str text):
         self._ptr.AddText(_cast_tuple_ImVec2(pos), color, _bytes(text))
 
+    def add_image(self, image, tuple a, tuple b, tuple uv_a=(0, 0), tuple uv_b=(1, 1), int color=0xffffffff):
+        self._ptr.AddImage(<void*>image, _cast_tuple_ImVec2(a), _cast_tuple_ImVec2(b), _cast_tuple_ImVec2(uv_a), _cast_tuple_ImVec2(uv_b), color)
+
     def add_bezier_curve(self, pos0, cp0, cp1, pos1, cimgui.ImU32 color, float thickness, int num_segments = 0):
         self._ptr.AddBezierCurve(_cast_tuple_ImVec2(pos0), _cast_tuple_ImVec2(cp0), _cast_tuple_ImVec2(cp1), _cast_tuple_ImVec2(pos1), color, thickness, num_segments)
 
