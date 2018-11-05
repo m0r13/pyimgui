@@ -404,8 +404,8 @@ cdef class _DrawList(object):
     def add_line(self, a, b, cimgui.ImU32 color, float thickness = 1.0):
         self._ptr.AddLine(_cast_tuple_ImVec2(a), _cast_tuple_ImVec2(b), color, thickness)
 
-    def add_rect(self, upper_left, lower_right, cimgui.ImU32 color, float rounding = 0.0, int rounding_corners_flags = 0xF):
-        self._ptr.AddRect(_cast_tuple_ImVec2(upper_left), _cast_tuple_ImVec2(lower_right), color, rounding, rounding_corners_flags)
+    def add_rect(self, upper_left, lower_right, cimgui.ImU32 color, float rounding = 0.0, int rounding_corners_flags = 0xF, float thickness = 1.0):
+        self._ptr.AddRect(_cast_tuple_ImVec2(upper_left), _cast_tuple_ImVec2(lower_right), color, rounding, rounding_corners_flags, thickness)
 
     def add_rect_filled(self, upper_left, lower_right, cimgui.ImU32 color, float rounding = 0.0, int rounding_corners_flags = 0xF):
         self._ptr.AddRectFilled(_cast_tuple_ImVec2(upper_left), _cast_tuple_ImVec2(lower_right), color, rounding, rounding_corners_flags)

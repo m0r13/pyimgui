@@ -218,7 +218,7 @@ cdef extern from "imgui.h":
                     const ImVec2&,
                     const ImVec2&,
                     ImU32,
-                    float, int) except +
+                    float, int, float) except +
 
         void  AddRectFilled(
                    const ImVec2&, 
