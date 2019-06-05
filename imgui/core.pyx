@@ -331,7 +331,7 @@ cdef cimgui.ImVec4 _cast_args_ImVec4(float x, float y, float z, float w):  # noq
 
 
 cdef _cast_ImVec4_tuple(cimgui.ImVec4 vec):  # noqa
-    return Vec4(vec.x, vec.y, vec.w, vec.z)
+    return (vec.x, vec.y, vec.w, vec.z)
 
 
 cdef class _ImGuiContext(object):
@@ -482,13 +482,14 @@ cdef class _DrawList(object):
 
     @property
     def commands(self):
-        return [
-            # todo: consider operator overloading in pxd file
-            _DrawCmd.from_ptr(&self._ptr.CmdBuffer.Data[idx])
-            # perf: short-wiring instead of using property
-            # note: add py3k compat
-            for idx in xrange(self._ptr.CmdBuffer.Size)
-        ]
+        return map(lambda i: _DrawCmd.from_ptr(&self._ptr.CmdBuffer.Data[i]), range(self._ptr.CmdBuffer.Size))
+        #return [
+        #    # todo: consider operator overloading in pxd file
+        #    _DrawCmd.from_ptr(&self._ptr.CmdBuffer.Data[idx])
+        #    # perf: short-wiring instead of using property
+        #    # note: add py3k compat
+        #    for idx in xrange(self._ptr.CmdBuffer.Size)
+        #]
 
 
 cdef class GuiStyle(object):
@@ -791,11 +792,12 @@ cdef class _DrawData(object):
 
     @property
     def commands_lists(self):
-        return [
-            _DrawList.from_ptr(self._ptr.CmdLists[idx])
-            # perf: short-wiring instead of using property
-            for idx in xrange(self._ptr.CmdListsCount)
-        ]
+        return map(lambda i: _DrawList.from_ptr(self._ptr.CmdLists[i]), range(self._ptr.CmdListsCount))
+        #return [
+        #    _DrawList.from_ptr(self._ptr.CmdLists[idx])
+        #    # perf: short-wiring instead of using property
+        #    for idx in xrange(self._ptr.CmdListsCount)
+        #]
 
 
 cdef class _StaticGlyphRanges(object):

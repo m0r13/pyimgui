@@ -8,7 +8,7 @@ Notes:
 """
 from libcpp cimport bool
 
-from enums cimport ImGuiKey_, ImGuiCol_
+from imgui.enums cimport ImGuiKey_, ImGuiCol_
 
 
 cdef extern from "imgui.h":
